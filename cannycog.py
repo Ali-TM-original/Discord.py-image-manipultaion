@@ -31,5 +31,23 @@ class custom(commands.Cog):
         file=discord.File('new_image.jpg')
         await ctx.send(file=file)
 
+        
+    @commands.command()
+    async def thresh(self, ctx, member: discord.Member = None):
+        if member is None:
+            member = ctx.message.author
+        else:
+            member= member
+        img = self.url_to_image(member.avatar_url)
+        # try and except as Threshold probably does not work with multiple frames without a while loop
+        # till i figure out how it properly works this command will not be for available for ppl with animated pfp's
+        try:
+            threshold, thresh = cv.threshold(img, 50, 255, cv.THRESH_BINARY)
+            cv.imwrite("thresh_image.jpg", thresh)
+            file=discord.File('thresh_image.jpg')
+            await ctx.send(file=file)
+        except Exception:
+           await ctx.send("Animated pics not allowed for this command")        
+
 def setup(bot):
     bot.add_cog(custom(bot))
