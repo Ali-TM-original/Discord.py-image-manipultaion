@@ -3,6 +3,7 @@ from urllib.request import Request, urlopen
 import numpy as np
 from discord.ext import commands
 import discord
+from utils.asyncstuff import asyncfunc
 
 class custom(commands.Cog):
     def __init__(self, bot):
