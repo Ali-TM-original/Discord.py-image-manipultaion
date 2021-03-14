@@ -3,11 +3,13 @@ from urllib.request import Request, urlopen
 import numpy as np
 from discord.ext import commands
 import discord
+from aioreq import aioreq
 
 class custom(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
+        
+# This is syncronous method avoid using this in async environment        
     def url_to_image(self,url, readFlag=cv.IMREAD_COLOR):
         # download the image, convert it to a NumPy array, and then read
         # it into OpenCV format
@@ -25,10 +27,13 @@ class custom(commands.Cog):
             member = ctx.message.author
         else:
             member = member
-        img = self.url_to_image(member.avatar_url)    
-        canny = cv.Canny(img, 125, 175)
-        cv.imwrite("new_image.jpg", canny)
-        file=discord.File('new_image.jpg')
+        url = member.avatar_url
+        img = aioreq()
+        byte = await img.magic(str(url))
+        #image = cv.imdecode(byte, cv.IMREAD_COLOR)
+        canny = cv.Canny(byte, 125, 175)
+        cv.imwrite("canny_image.jpg", canny)
+        file=discord.File('canny_image.jpg')
         await ctx.send(file=file)
 
         
