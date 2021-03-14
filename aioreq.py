@@ -10,8 +10,8 @@ class aioreq():
                 timeout=aiohttp.ClientTimeout(total=60.0)
         )        
 
-    async def magic(self, url: str, magnitude: float = 0.6) -> BytesIO:
-        """Applies a magic filter to a given image. Gif."""
+    async def magic(self, url: str) -> BytesIO:
+        """MAGICAAA CONVERTS IMAGE TO BYTES."""
 
         async with self.session.get(url) as resp:
 
