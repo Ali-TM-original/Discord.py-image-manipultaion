@@ -43,11 +43,11 @@ class custom(commands.Cog):
             member = ctx.message.author
         else:
             member= member
-        img = self.url_to_image(member.avatar_url)
-        # try and except as Threshold probably does not work with multiple frames without a while loop
-        # till i figure out how it properly works this command will not be for available for ppl with animated pfp's
+        url = member.avatar_url
+        img = aioreq()
+        byte = await img.magic(str(url))
         try:
-            threshold, thresh = cv.threshold(img, 50, 255, cv.THRESH_BINARY)
+            threshold, thresh = cv.threshold(byte, 50, 255, cv.THRESH_BINARY)
             cv.imwrite("thresh_image.jpg", thresh)
             file=discord.File('thresh_image.jpg')
             await ctx.send(file=file)
